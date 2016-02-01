@@ -1,5 +1,7 @@
 var Botkit = require('botkit')
 
+var authToken = undefined;
+
 // Expect a SLACK_TOKEN environment variable
 var slackToken = process.env.SLACK_TOKEN
 if (!slackToken) {
@@ -19,9 +21,19 @@ bot.startRTM(function (err, bot, payload) {
 });
 
 controller.hears(['auth'], ['mention', 'direct_mention'], function (bot, message) {
-  bot.reply(message, JSON.stringify(message));
+  authToken = message.text.split(' ')[1];
+
+  bot.reply(message, 'Je kan aan de slag hoor!');
 });
 
 controller.hears(['zoek'], ['mention', 'direct_mention'], function (bot, message) {
-  bot.reply(message, 'Ik ga op zoek naar')
+  if (authToken === undefined) {
+    bot.reply(message, 'Oh oh! Je moet eerst inloggen!');
+  }
+
+  var query = message.text.split(' ');
+  query.shift();
+  query.join(' ');
+
+  bot.reply(message, 'Ik ga op zoek naar "' + query + '"!');
 });
