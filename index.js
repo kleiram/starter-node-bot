@@ -46,7 +46,7 @@ controller.hears(['zoek'], ['mention', 'direct_mention'], function (bot, message
     }
   }, function (response) {
     response.on('data', function (chunck) {
-      bot.reply(chunck);
+      console.log(chunck);
     });
   })
 });
