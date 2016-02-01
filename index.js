@@ -29,11 +29,11 @@ controller.hears(['auth'], ['mention', 'direct_mention'], function (bot, message
 controller.hears(['zoek'], ['mention', 'direct_mention'], function (bot, message) {
   if (authToken === undefined) {
     bot.reply(message, 'Oh oh! Je moet eerst inloggen!');
+    return;
   }
 
   var query = message.text.split(' ');
   query.shift();
-  query.join(' ');
 
-  bot.reply(message, 'Ik ga op zoek naar "' + query + '"!');
+  bot.reply(message, 'Ik ga op zoek naar "' + query.join(' ') + '"!');
 });
