@@ -1,3 +1,4 @@
+var http = require('http');
 var Botkit = require('botkit')
 
 var authToken = undefined;
@@ -36,4 +37,16 @@ controller.hears(['zoek'], ['mention', 'direct_mention'], function (bot, message
   query.shift();
 
   bot.reply(message, 'Ik ga op zoek naar "' + query.join(' ') + '"!');
+
+  http.request({
+    host: "http://www.ah.nl",
+    path: "/service/rest/zoeken?rq=" + query.join(' '),
+    headers: {
+      'Cookie': authToken
+    }
+  }, function (response) {
+    response.on('data', function (chunck) {
+      bot.reply(chunck);
+    });
+  })
 });
